@@ -1,7 +1,8 @@
 ---
-layout: page
 title: About
 permalink: /about/
 ---
 
-contact@snr-lab.org
+$$ C = B \log_2\left(1+\frac{S}{N}\right) $$
+
+Contact [contact@snr-lab.org](mailto:contact@snr-lab.org?subject=Hello SNR) for more information.
