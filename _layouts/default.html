@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
   <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  
+  <style>
+    .post-content h1 { font-size: 38px; }
+    @media screen and (max-width: 800px) { .post-content h1 { font-size: 34px; } }
+    body, p {
+        text-align: justify;
+        text-justify: inter-word;
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+  </style>
+
   {%- include head.html -%}
 
   <body>
