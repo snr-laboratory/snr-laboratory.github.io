@@ -19,7 +19,7 @@ Email [root@snr-lab.org](mailto:root@snr-lab.org?subject=SNR Lab accounts) to as
 
 Information, especially human thoughts, insights, and plans, is volatile if not written down.  We write things down for rigorous book keeping and information sharing.  Write in the way of letters and documents.  Acceptable forms of writing are, in descending order of preference, markdown (in .md or in Jupyter notebook) in git repo, Google Doc, and (La)TeX doc.
 
-Slides are *not* a form of writing.  They allow the creator to be lazy while imposing extra work guessing and searching on the audience, who might be future you!  Slides are only prepared for conference talks.  Do not bring slides to (group) meetings to show results.  Bring your writing.
+Slides are *not* a form of writing.  They allow the creator to be lazy while imposing extra work guessing and searching on the audience, who might be future you!  Slides are only prepared for conference talks.  Do not bring slides to (group) meetings to show results.  Bring a URL that points to your writing.
 
 ## We share and help each other
 
