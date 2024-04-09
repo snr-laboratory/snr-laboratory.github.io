@@ -3,7 +3,7 @@ title: About
 permalink: /about/
 ---
 
-At SNR-Lab, our mission is to engineer cutting-edge devices, build precision instruments, and develop innovative techniques that together create systems capable of performing measurements and control at the very limits imposed by physical laws—be it thermal, quantum, or beyond.  Our ultimate pursuit is to achieve the highest possible signal-to-noise ratio (SNR).
+At SNR-Lab, our mission is to engineer cutting-edge devices, build precision instruments, and develop innovative techniques that together create systems to perform measurements and control at the very limits imposed by physical laws—be it thermal, quantum, or beyond.  Our ultimate pursuit is to achieve the highest possible signal-to-noise ratio (SNR).
 
 Our approach is holistic; we co-design Integrated Circuits (primarily CMOS), novel materials, and data flow together, integrating these components in unconventional ways to achieve unprecedented performance.  Our diverse range of devices operates under extreme conditions—from temperatures below 0.1 Kelvin to high-radiation environments—and is capable of detecting single quanta, such as photons, electrons, and ions, with remarkable amplitude, spatial, and timing resolution. This focus on SNR is at the core of our work.
 

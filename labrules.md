@@ -3,7 +3,7 @@ title: How we work
 permalink: /labrules/
 ---
 
-We adopt the ``chokepoint removal'' approach to problem solving and project selection.  A chokepoint in our definition is the most pressing issue that hinders the progress.  While not losing sight on the big picture, we always attack the most significant issue head-on and stay away from even the second most important one.  Priority matters.  The greatest progress is made by removing the chokepoint today rather than working on a problem that may need solving tomorrow.  Tomorrow's problem changes because of today's progress.
+We adopt the ``chokepoint removal'' approach to problem solving and project planning.  A chokepoint in our definition is the most pressing issue that hinders the progress.  While not losing sight on the big picture, we always attack the most significant issue head-on and stay away from even the second most important one.  Priority matters.  The greatest progress is made by removing the chokepoint today rather than working on a problem that may need solving tomorrow.  Tomorrow's problem changes because of today's progress.
 
 # Lab rules
 
@@ -25,6 +25,6 @@ Slides are *not* a form of writing.  They allow the creator to be lazy while imp
 
 By default, all information is visible to all group members.  While each member will champion their own projects, everyone is encouraged to learn from each other and cross-pollinate ideas.
 
-When in doubt, email [root@snr-lab.org](mailto:root@snr-lab.org?subject=SNR Lab rules) for clarification.
-
 $$ c_0 y + c_1 \frac{\partial y}{\partial n} = f $$
+
+When in doubt, email [root@snr-lab.org](mailto:root@snr-lab.org?subject=SNR Lab rules) for clarification.
