@@ -18,7 +18,7 @@ permalink: /people/
 # Postdoc
 
 <figure>
-    <!-- img src="/assets/images/people/yuan.mei.jpg" width="200" -->
+    <img src="/assets/images/people/peng.miao.jpg" width="200">
     <figcaption>
         Peng Miao, UTA, 2024/08 -- <br/>
         Postdoc, Berkeley Lab, 2022/08 -- 2024/08 <br/>
