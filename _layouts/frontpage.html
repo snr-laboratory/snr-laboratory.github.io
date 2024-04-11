@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico?">
+  <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="text/javascript" src="/assets/js/images.js"></script>
+  <link rel="stylesheet" href="/assets/css/images.css">
+  <style>
+    .site-title::before { /* add logo before site-title */
+        content: url("/assets/images/snr-lab-logo.svg");
+        display: inline-block;
+        position: relative;
+        width: 54px;
+        top: 8px;
+        right: 8px;
+    }
+    .post-content h1 { font-size: 38px; }
+    @media screen and (max-width: 800px) { .post-content h1 { font-size: 34px; } }
+    body, p {
+        text-align: justify;
+        text-justify: inter-word;
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+  </style>
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+  </body>
+
+</html>
