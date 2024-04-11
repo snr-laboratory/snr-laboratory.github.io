@@ -31,7 +31,7 @@ permalink: /people/
 # Honorary and past members
 
 <figure>
-    <!-- img src="/assets/images/people/yuan.mei.jpg" width="200" -->
+    <img src="/assets/images/people/hosan.ko.jpg" width="200">
     <figcaption>
     Ho-San Ko, Research Scientist, Avalanche Energy, 2024/01 -- <br/>
     Postdoc, Berkeley Lab, 2020/09 -- 2023/09 <br/>
@@ -41,7 +41,7 @@ permalink: /people/
 </figure>
 
 <figure>
-    <!-- img src="/assets/images/people/yuan.mei.jpg" width="200" -->
+    <img src="/assets/images/people/aled.cuda.jpg" width="200">
     <figcaption>
     Aled Cuda, Ph.D. student, UC Santa Barbara, 2022/08 -- <br/>
     BS in Physics, UC Berkeley, 2018 -- 2022
