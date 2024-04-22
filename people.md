@@ -41,6 +41,15 @@ permalink: /people/
 </figure>
 
 <figure>
+    <img src="/assets/images/people/roger.huang.jpg" width="200">
+    <figcaption>
+    Roger Huang, Postdoc, then Chamberlain fellow, LBNL, 2021/11 -- <br/>
+    Ph.D. in Particle Physics, UC Berkeley, 2016/08 -- 2021/11 <br/>
+    A.B. in Physics and Computer Science, Harvard University, 2012/08 -- 2016/05
+    </figcaption>
+</figure>
+
+<figure>
     <img src="/assets/images/people/aled.cuda.jpg" width="200">
     <figcaption>
     Aled Cuda, Ph.D. student, UC Santa Barbara, 2022/08 -- <br/>
