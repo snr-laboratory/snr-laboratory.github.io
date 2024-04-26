@@ -41,19 +41,30 @@ permalink: /people/
 </figure>
 
 <figure>
+    <img src="/assets/images/people/aled.cuda.jpg" width="200">
+    <figcaption>
+    Aled Cuda, Ph.D. student, UC Santa Barbara, 2022/08 -- <br/>
+    BS in Physics, UC Berkeley, 2018 -- 2022
+    </figcaption>
+</figure>
+
+<figure>
     <img src="/assets/images/people/roger.huang.jpg" width="200">
     <figcaption>
-    Roger Huang, Postdoc, then Chamberlain fellow, LBNL, 2021/11 -- <br/>
+    Roger Huang, Postdoc, then Chamberlain fellow, Berkeley Lab, 2021/11 -- <br/>
     Ph.D. in Particle Physics, UC Berkeley, 2016/08 -- 2021/11 <br/>
     A.B. in Physics and Computer Science, Harvard University, 2012/08 -- 2016/05
     </figcaption>
 </figure>
 
 <figure>
-    <img src="/assets/images/people/aled.cuda.jpg" width="200">
+    <img src="/assets/images/people/raul.hennings.jpg" width="200">
     <figcaption>
-    Aled Cuda, Ph.D. student, UC Santa Barbara, 2022/08 -- <br/>
-    BS in Physics, UC Berkeley, 2018 -- 2022
+    Raul Hennings Yeomans, Sr. Hardware Engineer, Battery, Lucid Motors, 2022/07 -- <br/>
+    Assistant Researcher, UC Berkeley, 2012/07 -- 2019/09 <br/>
+    Postdoc, Los Alamos National Laboratory, 2008/08 -- 2012/06 <br/>
+    Ph.D. in Physics, Case Western Reserve University, 2003 -- 2009 <br/>
+    BS in Physics, Universidad de Sonora, 1998 -- 2003
     </figcaption>
 </figure>
 
