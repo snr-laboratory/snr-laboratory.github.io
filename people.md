@@ -68,4 +68,13 @@ permalink: /people/
     </figcaption>
 </figure>
 
+<figure>
+    <img src="/assets/images/people/joe.camilleri.jpg" width="200">
+    <figcaption>
+    Joe Camilleri, Ph.D. student in Physics, Virginia Tech, 2018 -- <br/>
+    Junior Research Assistant, Berkeley Lab/UC Berkeley, 2015 -- 2018 <br/>
+    BS in Electrical Engineering, Cal Poly SLO, 2010 -- 2015
+    </figcaption>
+</figure>
+
 $$ \frac{dP}{dt} = kP(N-P) $$
