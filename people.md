@@ -30,6 +30,9 @@ permalink: /people/
 
 # Honorary and past members
 
+<table class="no-border">
+<tr>
+<td>
 <figure>
     <img src="/assets/images/people/hosan.ko.jpg" width="200">
     <figcaption>
@@ -39,7 +42,8 @@ permalink: /people/
     BS in Physics, Seoul National University, 2009/03 -- 2013/02
     </figcaption>
 </figure>
-
+</td>
+<td>
 <figure>
     <img src="/assets/images/people/aled.cuda.jpg" width="200">
     <figcaption>
@@ -47,7 +51,11 @@ permalink: /people/
     BS in Physics, UC Berkeley, 2018 -- 2022
     </figcaption>
 </figure>
+</td>
+</tr>
 
+<tr>
+<td>
 <figure>
     <img src="/assets/images/people/roger.huang.jpg" width="200">
     <figcaption>
@@ -56,7 +64,8 @@ permalink: /people/
     A.B. in Physics and Computer Science, Harvard University, 2012/08 -- 2016/05
     </figcaption>
 </figure>
-
+</td>
+<td>
 <figure>
     <img src="/assets/images/people/raul.hennings.jpg" width="200">
     <figcaption>
@@ -67,7 +76,11 @@ permalink: /people/
     BS in Physics, Universidad de Sonora, 1998 -- 2003
     </figcaption>
 </figure>
+</td>
+</tr>
 
+<tr>
+<td>
 <figure>
     <img src="/assets/images/people/joe.camilleri.jpg" width="200">
     <figcaption>
@@ -76,5 +89,10 @@ permalink: /people/
     BS in Electrical Engineering, Cal Poly SLO, 2010 -- 2015
     </figcaption>
 </figure>
+</td>
+<td>
+</td>
+</tr>
+</table>
 
 $$ \frac{dP}{dt} = kP(N-P) $$
