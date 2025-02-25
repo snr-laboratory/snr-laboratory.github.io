@@ -138,7 +138,7 @@ def main():
         for ix in range(5):
             x = x0 + ix * xstride
             y = y0 + iy * ystride
-            svg += f"<rect fill='none' stroke-width='1' stroke='currentColor' x='{x}in' y='{y}in' width='{xsize}in' height='{ysize}in'/>"
+#            svg += f"<rect fill='none' stroke-width='1' stroke='currentColor' x='{x}in' y='{y}in' width='{xsize}in' height='{ysize}in'/>"
             svg += f"<use x='{x}in' y='{y}in' xlink:href='#label{label_i}' />"
 
             label_i += 1
