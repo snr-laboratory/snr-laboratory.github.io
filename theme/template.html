@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="$lang$">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>$if(title)$$title$$else$$pagetitle$$endif$ — $site-title$</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico?" />
+  $for(css)$
+  <link rel="stylesheet" href="/$css$" />
+  $endfor$
+  $math$
+</head>
+<body>
+  $for(include-before)$
+  $include-before$
+  $endfor$
+  <main class="container">
+    $body$
+  </main>
+  $for(include-after)$
+  $include-after$
+  $endfor$
+  <script src="/assets/marginalia.js" defer></script>
+  <script src="/assets/js/images.js" defer></script>
+</body>
+</html>
