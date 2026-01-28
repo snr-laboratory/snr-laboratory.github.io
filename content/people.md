@@ -2,6 +2,8 @@
 title: People
 ---
 
+::: {.people-page}
+
 # Group leader
 
 <figure>
@@ -94,3 +96,5 @@ title: People
 </table>
 
 $$ \frac{dP}{dt} = kP(N-P) $$
+
+:::

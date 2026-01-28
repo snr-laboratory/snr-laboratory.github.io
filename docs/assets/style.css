@@ -169,6 +169,31 @@ code {
 figure { margin: 1.5rem 0; }
 figcaption { color: var(--muted); font-size: 0.95rem; }
 
+.people-page h1 {
+  font-size: 1.6rem;
+  margin: 1.1rem 0 0.5rem;
+}
+
+.people-page figure {
+  margin: 0.7rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.people-page figcaption {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.people-page .no-border td {
+  padding: 0 1.5rem 0.8rem 0;
+}
+
+.people-page table.no-border {
+  margin: 0.6rem 0 1rem;
+}
+
 .table-wrap { overflow-x: auto; }
 
 table {
