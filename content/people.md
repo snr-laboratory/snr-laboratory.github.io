@@ -29,6 +29,17 @@ title: People
   </figcaption>
 </figure>
 
+# Students
+
+<figure>
+  <img src="/assets/images/people/gumaro.gonzalez.jpg" width="200">
+  <figcaption>
+    Gumaro Gonzalez, Ph.D. student, UTA, 2023/01 -- <br/>
+    High School Chemistry Teacher, AHS, 2019/08 -- 2023/03 <br/>
+    BS in Chemistry, UTA, 2014/08 -- 2019/05
+  </figcaption>
+</figure>
+
 # Honorary and past members
 
 <table class="no-border">
