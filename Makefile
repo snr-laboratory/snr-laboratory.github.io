@@ -31,7 +31,10 @@ PANDOC_FLAGS := \
 
 .PHONY: build clean serve
 
-build: $(OUT_DIR)/assets $(HTML_OUT)
+build: $(OUT_DIR)/assets $(OUT_DIR)/CNAME $(HTML_OUT)
+
+$(OUT_DIR)/CNAME: CNAME | $(OUT_DIR)
+	cp CNAME $(OUT_DIR)/CNAME
 
 $(OUT_DIR):
 	mkdir -p $(OUT_DIR)
