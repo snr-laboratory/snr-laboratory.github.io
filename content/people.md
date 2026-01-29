@@ -31,14 +31,40 @@ title: People
 
 # Students
 
-<figure>
-  <img src="/assets/images/people/gumaro.gonzalez.jpg" width="200">
-  <figcaption>
-    Gumaro Gonzalez, Ph.D. student, UTA, 2023/01 -- <br/>
-    High School Chemistry Teacher, AHS, 2019/08 -- 2023/03 <br/>
-    BS in Chemistry, UTA, 2014/08 -- 2019/05
-  </figcaption>
-</figure>
+<table class="no-border">
+  <tr>
+    <td>
+      <figure>
+        <img src="/assets/images/people/kalindi.gosine.jpg" width="200">
+        <figcaption>
+          Kalindi Gosine, Ph.D. student, UTA, 2024/09 -- <br/>
+          BA in Physics, University of Pennsylvania 2020 -- 2024
+        </figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure>
+        <img src="/assets/images/people/pratyanik.sau.jpg" width="200">
+        <figcaption>
+          Pratyanik Sau, Ph.D. student, UCR, 2025/09 -- <br/>
+          BS in Physics (minors in Mathematics and Data Science), UTA, 2021/08 -- 2024/12
+        </figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure>
+        <img src="/assets/images/people/gumaro.gonzalez.jpg" width="200">
+        <figcaption>
+          Gumaro Gonzalez, Ph.D. student, UTA, 2023/01 -- <br/>
+          High School Chemistry Teacher, AHS, 2019/08 -- 2023/03 <br/>
+          BS in Chemistry, UTA, 2014/08 -- 2019/05
+        </figcaption>
+      </figure>
+    </td>
+  </tr>
+</table>
 
 # Honorary and past members
 
