@@ -16,18 +16,34 @@ title: People
   </figcaption>
 </figure>
 
-# Postdoc
+# Postdocs
 
-<figure>
-  <img src="/assets/images/people/peng.miao.jpg" width="200">
-  <figcaption>
-    Peng Miao, UTA, 2024/08 -- <br/>
-    Postdoc, Berkeley Lab, 2022/08 -- 2024/08 <br/>
-    Postdoc, USTC, 2021/01 -- 2022/07 <br/>
-    Ph.D. in Physical electronics, USTC, 2014/09 -- 2020/12 <br/>
-    BS in Applied physics, USTC, 2010/09 -- 2014/07
-  </figcaption>
-</figure>
+<table class="no-border">
+  <tr>
+    <td>
+      <figure>
+        <img src="/assets/images/people/xiaochen.ni.webp" width="200">
+        <figcaption>
+          Xiaochen Harry Ni, UTA, 2026/01 -- <br/>
+          Ph.D. in Physics, University of Washington, 2020/09 -- 2025/12 <br/>
+          BA in Physics, University of Chicago, 2016/09 -- 2020/06
+        </figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure>
+        <img src="/assets/images/people/peng.miao.jpg" width="200">
+        <figcaption>
+          Peng Miao, UTA, 2024/08 -- <br/>
+          Postdoc, Berkeley Lab, 2022/08 -- 2024/08 <br/>
+          Postdoc, USTC, 2021/01 -- 2022/07 <br/>
+          Ph.D. in Physical electronics, USTC, 2014/09 -- 2020/12 <br/>
+          BS in Applied physics, USTC, 2010/09 -- 2014/07
+        </figcaption>
+      </figure>
+    </td>
+  </tr>
+</table>
 
 # Students
 
