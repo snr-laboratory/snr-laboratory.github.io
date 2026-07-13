@@ -1,4 +1,6 @@
 :root {
+  --page-pad: 1.5rem;
+  --note-gap: 0.75rem;
   --textw: 50rem;
   --marginw: 18rem;
   --gutter: 2.5rem;
@@ -52,7 +54,7 @@ a:hover {
 .nav-inner {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--page-pad);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,12 +107,13 @@ a:hover {
 }
 
 .container {
+  position: relative;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 1.6rem 1.5rem 3.5rem;
+  padding: 1.6rem var(--page-pad) 3.5rem;
 }
 
-.container > *:not(details.commentary) {
+.container > *:not(details.commentary):not(.commentary-anchor) {
   max-width: var(--maxw);
   margin-right: auto;
 }
@@ -209,7 +212,7 @@ figcaption { color: var(--muted); font-size: 0.95rem; }
 .footer-wrapper {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--page-pad);
 }
 
 .footer-heading {
@@ -310,11 +313,18 @@ figcaption { color: var(--muted); font-size: 0.95rem; }
 }
 
 /* Commentary / marginalia */
+.commentary-anchor {
+  display: block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 details.commentary {
-  float: right;
-  clear: right;
+  position: absolute;
+  left: calc(100% - var(--page-pad) + var(--note-gap));
   width: var(--marginw);
-  margin: 0.2rem 0 1.6rem var(--gutter);
+  margin: 0;
   padding: 0.85rem 0.9rem 0.95rem;
   border: 1px solid var(--rule);
   border-radius: 10px;
@@ -322,6 +332,7 @@ details.commentary {
   font-size: 0.95rem;
   line-height: 1.55;
   box-shadow: 0 10px 20px rgba(17, 17, 17, 0.08);
+  hyphens: none;
 }
 
 details.commentary summary {
@@ -389,9 +400,11 @@ details.commentary[open] .commentary-toggle::before { content: "\2212"; }
   }
 
   details.commentary {
-    float: none;
+    position: static;
     width: auto;
     margin: 0 0 1.4rem 0;
     box-shadow: none;
   }
+
+  .commentary-anchor { display: none; }
 }

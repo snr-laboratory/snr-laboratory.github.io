@@ -29,44 +29,178 @@
     <h1 id="sensor-development">Sensor development</h1>
     <h2 id="sensors-for-nuclear-and-particle-physics">Sensors for
     nuclear and particle physics</h2>
-    <p>Sensors in nuclear and particle physics experiments are ideally
-    massless, wireless, power-free, smart, and levitating. While many of
-    these attributes are beyond the bounds of practical realization due
-    to physical constraints, they serve as aspirational goals.</p>
+    <p>The ideal sensor for nuclear and particle physics would be
+    massless, wireless, power-free, smart, and levitating. No physical
+    device can satisfy those ideals completely, but they are productive
+    directions: each one identifies a source of disturbance between the
+    phenomenon being measured and the information ultimately
+    recorded.</p>
+    <p>Sensor development is therefore not only the design of a
+    sensitive element. It is the co-design of materials, integrated
+    circuits, power, communication, mechanics, calibration, and data
+    processing. A detector succeeds when the complete system preserves
+    the signal while introducing as little noise, material, heat, and
+    operational complexity as possible.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">The sensor is the complete signal path</span></summary>
+    <div class="commentary-body">
+    <p>The sensitive material may create the first measurable charge or
+    photon, but supports, cables, electronics, clocks, cooling, and
+    reconstruction all shape the final result. Optimizing the sensing
+    element alone can move noise or inefficiency into another
+    subsystem.</p>
+    </div></details>
     <h3 id="massless">Massless</h3>
-    <ul>
-    <li>In particle tracking applications, the mass through which a
-    particle traverses can cause energy loss and scattering, leading to
-    a change in direction. Both of these factors deteriorate the
-    precision of measurements. Minimizing sensor mass is, therefore,
-    highly desirable.</li>
-    <li>In low-background experiments, a lower mass of materials that
-    contain radioactivity means a lower background.</li>
-    </ul>
+    <p>Material changes the event before it is measured. In a tracking
+    detector, every support, cable, cooling tube, and sensor layer can
+    cause energy loss and multiple scattering, degrading momentum and
+    vertex resolution. The relevant quantity is the complete material
+    budget seen by the particle, not merely the mass of the active
+    device.</p>
+    <p>Low-background experiments impose a second requirement. More
+    material generally means more opportunities for radioactive
+    contamination, cosmogenic activation, surface deposition, and
+    difficult-to-model backgrounds. Reducing mass also reduces the
+    number of components that must be assayed, cleaned, tracked, and
+    installed.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Mass is measured in interaction probability</span></summary>
+    <div class="commentary-body">
+    <p>For charged-particle tracking, material is commonly compared
+    through radiation length rather than kilograms. For rare-event
+    searches, isotope content and location may matter more than bulk
+    mass. A small component in the wrong place can dominate a background
+    budget.</p>
+    </div></details>
+    <p>The practical objective is not to make the sensor literally
+    massless. It is to make every gram perform more than one function: a
+    mechanical layer can also route signals, a field electrode can also
+    provide shielding, and the active substrate can replace a separate
+    support. Integration is valuable when it removes interfaces and
+    material rather than merely hiding them.</p>
     <h3 id="wireless">Wireless</h3>
-    <ul>
-    <li>Wires for power and signal transmission often cause interference
-    and engineering difficulties.</li>
-    </ul>
+    <p>Wires create grounding paths, pickup loops, heat leaks,
+    feedthroughs, mechanical constraints, and assembly work. They are
+    particularly costly in vacuum, cryogenic, high-pressure, rotating,
+    or high-channel-count systems. A wireless sensor can simplify the
+    larger instrument if communication and power cross the boundary with
+    fewer disturbances than the cable they replace.</p>
+    <p>Wireless operation may use radio frequency, optical, magnetic, or
+    acoustic carriers. The choice depends on shielding, distance,
+    bandwidth, timing, radiation tolerance, and available receiver
+    geometry. The purpose is not to advertise a radio link; it is to
+    remove a physical service that limits the experiment.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Removing a wire moves responsibility</span></summary>
+    <div class="commentary-body">
+    <p>The functions of a cable do not disappear. Clock recovery,
+    addressing, error detection, power delivery, and fault diagnosis
+    must be provided elsewhere. Wireless is a system simplification only
+    when the replacement remains simpler after those functions are
+    counted.</p>
+    </div></details>
     <h3 id="power-free">Power-free</h3>
-    <ul>
-    <li>Sensors that consume power generate heat, which is difficult to
-    manage, especially in cryogenic environments.</li>
-    </ul>
+    <p>Power consumption becomes heat, and heat is often harder to
+    remove than electrical energy is to deliver. This is especially
+    important below 1 K, inside a sealed detector, or near a
+    temperature-sensitive material. Power can also introduce switching
+    noise, electromagnetic interference, thermal gradients, and
+    mechanical infrastructure for cooling.</p>
+    <p>A useful direction is to reduce continuous power through passive
+    sensing, remote interrogation, event-driven wake-up, subthreshold
+    circuits, local energy storage, and aggressive duty cycling. A
+    device may accumulate energy slowly, perform a measurement quickly,
+    transmit a compact result, and then return to an inactive state.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Power-free usually means externally powered</span></summary>
+    <div class="commentary-body">
+    <p>Measurement requires energy. A nominally passive sensor may
+    receive it optically, magnetically, acoustically, thermally, or from
+    the phenomenon being measured. The engineering question is how much
+    energy is required, where it is dissipated, and whether that
+    dissipation perturbs the result.</p>
+    </div></details>
+    <p>Peak power and average power must be considered separately.
+    Energy storage can support a short burst without imposing the same
+    continuous heat load, but capacitors, conversion losses, startup
+    behavior, and recharge time become part of the measurement
+    cycle.</p>
     <h3 id="smart">Smart</h3>
-    <ul>
-    <li>Sensors are desirable to be capable of picking useful
-    information out of all measurements at the very front of the signal
-    chain. The design and manufacturing of sensors itself shall
-    incorporate machine learning and generative design as well.</li>
-    </ul>
+    <p>A smart sensor extracts useful structure close to the beginning
+    of the signal chain. It may reject obvious backgrounds, identify
+    regions of interest, compress redundant samples, estimate pulse
+    parameters, monitor its own health, or adapt operating conditions.
+    Early processing can reduce bandwidth and storage while enabling
+    systems with channel counts that would otherwise be impractical.</p>
+    <p>Intelligence at the edge must remain measurable and testable.
+    Calibration modes should expose sufficient raw data to validate
+    thresholds, fitted quantities, and learned models. A front-end
+    decision that cannot be audited can silently convert detector
+    behavior into analysis bias.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Compression can become selection</span></summary>
+    <div class="commentary-body">
+    <p>Lossless compression preserves the measurement; thresholding and
+    feature extraction may not. Whenever the sensor decides what not to
+    transmit, that decision becomes part of detector efficiency and must
+    be calibrated like any other response function.</p>
+    </div></details>
+    <p>Machine learning can contribute both to operation and design.
+    Models may classify local patterns, predict failures, or optimize
+    geometry and circuit parameters. Generative design is most useful
+    when its objective includes fabrication yield, calibration,
+    radiation tolerance, power, and uncertainty, not only nominal
+    simulated performance.</p>
     <h3 id="levitating">Levitating</h3>
-    <ul>
-    <li>Anchoring sensors mechanically to specific locations for optimal
-    signal measurement is a primary engineering challenge. Achieving
-    sensor levitation would circumvent the need for such mechanical
-    structures, presenting a novel solution to this issue.</li>
-    </ul>
+    <p>Mechanical attachment solves positioning but introduces supports,
+    stress, thermal paths, vibration coupling, dead material, and
+    assembly tolerances. The levitating ideal asks whether a sensor can
+    be positioned and interrogated with less permanent structure, using
+    electric, magnetic, optical, acoustic, buoyant, or fluid-dynamic
+    forces where the environment permits.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Levitating is a direction, not a requirement</span></summary>
+    <div class="commentary-body">
+    <p>Literal free-space suspension will not suit every detector. The
+    broader objective is contactless or minimally constrained placement:
+    fewer supports, weaker thermal links, reduced friction, and geometry
+    that can be established or adjusted through fields.</p>
+    </div></details>
+    <p>A remotely positioned device must still be stable, recoverable,
+    identifiable, and calibratable. Field gradients may disturb the
+    measurement; motion can complicate reconstruction; and failure modes
+    must not contaminate or damage the apparatus. The value of
+    levitation is determined by the structure it eliminates after the
+    control system is included.</p>
+    <h2 id="co-designing-the-ideals">Co-designing the ideals</h2>
+    <p>These attributes reinforce and compete with one another. Removing
+    wires can reduce mass and heat leaks, but wireless communication
+    consumes power. Local intelligence can reduce transmitted data, but
+    computation adds heat. Mechanical integration can reduce supports,
+    but may complicate fabrication or repair. The design problem is to
+    find combinations in which one architectural decision improves
+    several budgets at once.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">No attribute is free</span></summary>
+    <div class="commentary-body">
+    <p>Every claimed improvement should identify where complexity moved.
+    The strongest design removes a component or interface entirely; the
+    weakest merely renames it or transfers it to a harder-to-measure
+    subsystem.</p>
+    </div></details>
+    <p>We evaluate sensor concepts as complete measurement systems:
+    signal formation, noise, material, power, communication, mechanics,
+    calibration, manufacturability, and data interpretation. The
+    aspirational sensor may be impossible, but moving deliberately
+    toward it can produce instruments that measure more while disturbing
+    less.</p>
   </main>
     <footer class="site-footer">
       <div class="wrapper footer-wrapper">
