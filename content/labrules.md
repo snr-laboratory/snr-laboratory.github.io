@@ -16,6 +16,10 @@ Each group member shall be given access to the Lab-owned git repo, wiki, Google 
 
 Email [root@snr-lab.org](mailto:root@snr-lab.org?subject=SNR Lab accounts) to ask for an account or a new repo to be created.
 
+### Computing and coding
+
+Our [Computing and coding guide](/computing/) describes the working environment we use on Linux and macOS: local applications, Python and EDA tools, terminal and editor setup, SSH, portable scripts, C, and coding agents. Follow these conventions when setting up a machine or starting a project. The main text gives the practice; expandable notes explain the reasoning.
+
 ### We write things down
 
 Information, especially human thoughts, insights, and plans, is volatile if not written down. We write things down for rigorous book keeping and information sharing. Write in the way of letters and documents. Acceptable forms of writing are, in descending order of preference, markdown (in .md or in Jupyter notebook) in git repo, Google Doc, and (La)TeX doc.

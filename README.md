@@ -2,13 +2,22 @@
 
 Public website for The SNR Laboratory (snr-lab.org). The site is built with Pandoc and a custom HTML template, not Jekyll.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, page authoring, and validation. Repository instructions for coding agents are in [AGENTS.md](AGENTS.md).
+
 ## Build & Serve
+
+Builds require Make and Pandoc. The preview server uses `$HOME/Applications/appvenv/bin/python`; create that environment with `python3 -m venv "$HOME/Applications/appvenv"` if needed.
+
+Make targets use repository-local `tmp/` for temporary files.
+
 - `make build` generates the site into `docs/`.
 - `make rebuild` removes and regenerates the complete site.
 - `make check` builds and verifies the required generated files.
 - `make serve` builds and serves `docs/` at `http://localhost:8000`.
 - `make clean` removes the generated `docs/` directory.
 - `PANDOC=/path/to/pandoc make build` overrides the Pandoc binary if needed.
+- `PYTHON=/path/to/python make serve` explicitly overrides the preview interpreter.
+- `make serve PORT=8001` uses a different preview port when 8000 is occupied.
 
 ## Project Structure
 - `content/` Markdown source pages (Pandoc). Each page renders to `docs/<slug>/index.html`.

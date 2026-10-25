@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Computing and coding — The SNR Laboratory</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico?" />
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+<body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a href="/" class="brand">The SNR Laboratory</a>
+        <div class="links">
+          <a href="/about/">About</a>
+          <a href="/people/">People</a>
+          <a href="/joinus/">Join us</a>
+          <a href="/labrules/">How we work</a>
+          <a href="/instruments/">Instruments</a>
+          <a href="/sensor/">Sensor R&amp;D</a>
+          <a href="/wireless/">Wireless</a>
+          <button class="commentary-global" id="commentary-toggle" type="button" aria-pressed="false" aria-label="Toggle commentary" title="Toggle commentary">
+            <span class="commentary-toggle" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <main class="container">
+    <h1 id="computing-and-coding">Computing and coding</h1>
+    <p><a href="/labrules/">How we work</a> / Computing and coding</p>
+    <p>We maintain a small, understandable working environment on Linux
+    and macOS. Group members and coding agents should be able to find
+    the same tools, reproduce the same commands, and understand the code
+    that runs an experiment. The practices below are our defaults;
+    record any project-specific requirements alongside the project.</p>
+    <p><strong>On this page:</strong> <a
+    href="#applications">Applications</a> | <a
+    href="#language-tools">Language tools</a> | <a
+    href="#terminal-and-editors">Terminal and editors</a> | <a
+    href="#ssh">SSH</a> | <a href="#remote-sessions">Remote sessions</a>
+    | <a href="#portable-scripts">Portable scripts</a> | <a
+    href="#c-and-memory">C and memory</a> | <a
+    href="#coding-agents">Coding agents</a></p>
+    <h2 id="applications">Applications</h2>
+    <p><strong>Keep applications under
+    <code>$HOME/Applications/</code>.</strong> On macOS,
+    <code>.app</code> bundles can live directly in this directory. On
+    both platforms, keep downloaded source in
+    <code>$HOME/Applications/src/</code> and install locally built
+    programs into the <code>$HOME/Applications/</code> prefix.</p>
+    <pre class="text"><code>$HOME/Applications/
+    bin/        command-line executables
+    include/    installed headers
+    lib/        installed libraries
+    share/      installed data and documentation
+    src/        source checkouts and unpacked releases
+    appvenv/    Python environment for everyday tools</code></pre>
+    <p>For a project using a conventional configure script:</p>
+    <div class="sourceCode" id="cb2"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./configure</span> <span class="at">--prefix</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install</span></code></pre></div>
+    <p>For a Makefile that exposes <code>PREFIX</code>, follow its
+    installation instructions and use
+    <code>make PREFIX="$HOME/Applications" install</code>. Different
+    build systems spell the setting differently; keep the destination
+    consistent.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Know what is installed and where</span></summary>
+    <div class="commentary-body">
+    <p>A user-owned prefix makes applications easy to inspect, replace,
+    and reproduce without administrator access. Prefer an upstream
+    download or a straightforward source build when available. Use the
+    operating system’s package manager for system dependencies and
+    updates where appropriate, while keeping our working tools under our
+    control.</p>
+    </div></details>
+    <p>Put <code>$HOME/Applications/bin/</code> near the front of
+    <code>PATH</code> in <code>~/.zshrc</code> or
+    <code>~/.bashrc</code>, according to the interactive shell you
+    use:</p>
+    <div class="sourceCode" id="cb3"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></span></code></pre></div>
+    <p>Bash login shells read <code>~/.bash_profile</code> rather than
+    <code>~/.bashrc</code>; have the former load the latter if needed.
+    Check <code>command -v program</code> and
+    <code>program --version</code> when a command resolves to an
+    unexpected installation. Scripts and agents must select their tools
+    explicitly rather than depend on interactive aliases.</p>
+    <h2 id="language-tools">Language tools</h2>
+    <p><strong>Install language tools locally and keep their locations
+    predictable.</strong></p>
+    <ul>
+    <li><strong>Go:</strong> install the upstream toolchain under
+    <code>$HOME/Applications/</code> and set
+    <code>GOPATH="$HOME/Applications/go"</code>. Add the toolchain’s
+    <code>bin/</code> and <code>$GOPATH/bin/</code> to
+    <code>PATH</code>.</li>
+    <li><strong>Rust:</strong> use <a
+    href="https://rust-lang.github.io/rustup/">rustup</a> with its
+    normal user directories, <code>$HOME/.rustup/</code> and
+    <code>$HOME/.cargo/</code>. Load <code>$HOME/.cargo/env</code> when
+    present.</li>
+    <li><strong>Node.js:</strong> use <a
+    href="https://github.com/nvm-sh/nvm">nvm</a> under
+    <code>$HOME/.nvm/</code>; load its <code>nvm.sh</code> from the
+    interactive shell configuration.</li>
+    </ul>
+    <p>A shell setup for the language directories is:</p>
+    <div class="sourceCode" id="cb4"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GOPATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/go&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$GOPATH</span><span class="st">/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.cargo/env&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">.</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.cargo/env&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NVM_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.nvm&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$NVM_DIR</span><span class="st">/nvm.sh&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">.</span> <span class="st">&quot;</span><span class="va">$NVM_DIR</span><span class="st">/nvm.sh&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">The compiler and its workspace are different</span></summary>
+    <div class="commentary-body">
+    <p><a href="https://go.dev/wiki/GOPATH"><code>GOPATH</code></a>
+    holds Go’s module cache and installed commands; it is separate from
+    the Go toolchain itself. Likewise, <a
+    href="https://doc.rust-lang.org/cargo/guide/cargo-home.html">Cargo’s
+    home</a> contains tools and caches. These are useful, explicit
+    language conventions. Keep their versions and project manifests
+    recorded so another machine can reproduce the environment.</p>
+    </div></details>
+    <h3 id="python">Python</h3>
+    <p><strong>Use <code>$HOME/Applications/appvenv/</code> for everyday
+    Python tools and agent scripts. Avoid Conda and additional
+    environment managers.</strong> Bootstrap the environment with an
+    appropriate installed Python 3:</p>
+    <div class="sourceCode" id="cb5"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/appvenv&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/appvenv/bin/python&quot;</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/appvenv/bin/python&quot;</span> script.py</span></code></pre></div>
+    <p>The requirements file belongs to the project being installed. Use
+    <code>python -m pip</code> through this explicit interpreter so
+    installation and execution target the same environment. Record
+    dependencies and versions in the repository. Coordinate changes to
+    the shared environment; agents should not silently upgrade it to
+    solve an unrelated task.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">An explicit interpreter survives a new shell</span></summary>
+    <div class="commentary-body">
+    <p>Activating a virtual environment is convenient interactively, but
+    an agent, cron job, or SSH command may start without it. The full
+    interpreter path works in all of those contexts and avoids
+    accidentally installing into or running the system Python.</p>
+    </div></details>
+    <h3 id="ic-design-tools-and-codex">IC design tools and Codex</h3>
+    <p>Use <a href="https://github.com/ymei/OpenICEDA">OpenICEDA</a> at
+    <code>/opt/OpenICEDA</code> for the IC design toolchain. Load its
+    environment in the shell where it is needed:</p>
+    <div class="sourceCode" id="cb6"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span> /opt/OpenICEDA/env.sh</span></code></pre></div>
+    <p>Its environment script may activate the toolchain’s own Python
+    environment. Continue to invoke
+    <code>$HOME/Applications/appvenv/bin/python</code> explicitly for
+    general Python work. Follow the repository’s build instructions for
+    its EDA tools and process design kits.</p>
+    <p>Install or update Codex with <a
+    href="https://github.com/ymei/Infra-Mgmt/blob/main/utils/install-codex.sh"><code>utils/install-codex.sh</code></a>
+    from <a href="https://github.com/ymei/Infra-Mgmt">Infra-Mgmt</a>.
+    From a checkout, run:</p>
+    <div class="sourceCode" id="cb7"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sh</span> utils/install-codex.sh</span></code></pre></div>
+    <p>The installer defaults to <code>$HOME/Applications/bin/</code>
+    and verifies the downloaded package checksum. Keep this installation
+    method consistent across machines.</p>
+    <h2 id="terminal-and-editors">Terminal and editors</h2>
+    <p><strong>Learn the terminal’s editing and history commands. Keep
+    Vim and Neovim on a shared configuration.</strong> Small
+    conveniences used hundreds of times a day are worth setting up
+    once.</p>
+    <h3 id="readline-and-zsh">Readline and Zsh</h3>
+    <p>Our <code>~/.inputrc</code> configures Bash and other
+    applications that use GNU Readline:</p>
+    <pre class="text"><code>&quot;\e[2~&quot;: quoted-insert
+&quot;\e[3~&quot;: delete-char
+
+&quot;\e[1~&quot;: beginning-of-line
+&quot;\e[4~&quot;: end-of-line
+
+&quot;\e[5~&quot;: history-search-backward
+&quot;\e[6~&quot;: history-search-forward
+
+&quot;\ep&quot;: history-search-backward
+&quot;\en&quot;: history-search-forward
+
+&quot;\e[A&quot;: previous-history
+&quot;\e[B&quot;: next-history</code></pre>
+    <p>Reload it in Bash with <code>bind -f "$HOME/.inputrc"</code>, or
+    start a new shell. <strong>Zsh does not read
+    <code>.inputrc</code>.</strong> Put the corresponding bindings in
+    <code>~/.zshrc</code>, after any shell framework or plugin
+    setup:</p>
+    <div class="sourceCode" id="cb9"><pre
+    class="sourceCode zsh"><code class="sourceCode zsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bindkey</span> <span class="at">-e</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">bindkey</span> <span class="st">&#39;\ep&#39;</span> history-beginning-search-backward</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">bindkey</span> <span class="st">&#39;\en&#39;</span> history-beginning-search-forward</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">bindkey</span> <span class="st">&#39;^R&#39;</span> history-incremental-pattern-search-backward</span></code></pre></div>
+    <p>Use these keys with the Emacs editing mode selected above:</p>
+    <ul>
+    <li><strong>Alt-P / Alt-N:</strong> search backward or forward
+    through commands starting with the text before the cursor. Type
+    <code>ssh</code> first, for example, to revisit SSH commands.</li>
+    <li><strong>Ctrl-R:</strong> search history interactively; type part
+    of the command and press Ctrl-R again for another match.</li>
+    <li><strong>Ctrl-A / Ctrl-E:</strong> move to the beginning or end
+    of the line.</li>
+    <li><strong>Alt-B / Alt-F:</strong> move backward or forward by a
+    word.</li>
+    <li><strong>Ctrl-K / Ctrl-Y:</strong> cut to the end of the line,
+    then paste the cut text back.</li>
+    <li><strong>Ctrl-U:</strong> clear the line in Zsh; in
+    Bash/Readline, cut from the cursor back to the beginning.</li>
+    <li><strong>Up / Down:</strong> browse history normally;
+    <strong>Tab</strong> completes a command or path.</li>
+    </ul>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Search a prefix instead of scrolling</span></summary>
+    <div class="commentary-body">
+    <p>Prefix history search retrieves the command you intended without
+    stepping through everything you ran yesterday. <a
+    href="https://www.gnu.org/software/bash/manual/html_node/Searching.html">Readline</a>
+    and Zsh expose it through different configuration files. If the
+    terminal intercepts Alt, configure Option/Alt to send Meta/Esc, or
+    press Esc followed by the letter. Home, End, and Page keys also
+    depend on the terminal’s escape sequences.</p>
+    </div></details>
+    <h3 id="one-vim-configuration">One Vim configuration</h3>
+    <p>The following shared <code>~/.vimrc</code> retains our editing
+    settings, with Vim-only initialization guarded for Neovim and the
+    optional fzf path checked:</p>
+    <pre class="vim"><code>set nocompatible
+if !has(&#39;nvim&#39;)
+    source $VIMRUNTIME/vimrc_example.vim
+    let &amp;termencoding = &amp;encoding
+endif
+set ignorecase
+set smartcase
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set nobackup
+set noundofile
+set encoding=utf8
+set fileencodings=ucs-bom,utf-8,gb18030
+&quot; Wrap for display without inserting line breaks.
+set wrap
+set formatoptions-=tc
+colorscheme elflord
+filetype plugin on
+filetype indent on
+set mouse=
+if isdirectory(&#39;/opt/local/share/fzf/vim&#39;)
+    set rtp+=/opt/local/share/fzf/vim
+endif
+
+let java_highlight_java_lang_ids=1
+let java_highlight_java_io=1
+let java_highlight_functions=&quot;style&quot;
+let java_highlight_debug=1
+let java_allow_cpp_keywords=1
+
+syntax enable</code></pre>
+    <p>Put this adapter in <code>$HOME/.config/nvim/init.vim</code> so
+    both editors use the same setup:</p>
+    <pre class="vim"><code>set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &amp;packpath = &amp;runtimepath
+source ~/.vimrc</code></pre>
+    <p>If <code>XDG_CONFIG_HOME</code> is set, use its
+    <code>nvim/init.vim</code> instead. Keep editor settings in
+    <code>.vimrc</code>; the adapter only connects Neovim to it.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Share the setup, account for the differences</span></summary>
+    <div class="commentary-body">
+    <p>Neovim supports Vimscript configuration, but some legacy
+    settings, including <a
+    href="https://neovim.io/doc/user/vim_diff/#vim-differences"><code>termencoding</code></a>,
+    have been removed. Guarding Vim-only initialization avoids startup
+    errors. Four-space indentation and soft wrapping are editing
+    defaults; follow an existing repository’s conventions.
+    <code>nobackup</code> and <code>noundofile</code> disable backup
+    files and persistent undo, so save and commit work regularly.</p>
+    </div></details>
+    <p>Press <code>i</code> to enter insert mode and Esc to return to
+    normal mode. Useful normal-mode commands include
+    <code>/pattern</code> to search, <code>n</code> / <code>N</code> for
+    the next / previous match, <code>gg</code> / <code>G</code> for the
+    start / end of the file, <code>ciw</code> to change a word, and
+    <code>u</code> / Ctrl-R to undo / redo. Use <code>:w</code> to save
+    and <code>:%s/old/new/gc</code> to review replacements one at a
+    time.</p>
+    <h2 id="ssh">SSH</h2>
+    <p><strong>Use SSH with public-key authentication for remote access
+    and Git.</strong> Register the public key with the service or in the
+    server’s <code>~/.ssh/authorized_keys</code>. Keep private keys on
+    your own machine or hardware token, and verify a new server’s
+    host-key fingerprint through a trusted channel.</p>
+    <p>A supported YubiKey can hold an SSH authentication key. For a
+    FIDO2-capable key and OpenSSH build, one option is:</p>
+    <div class="sourceCode" id="cb12"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519-sk <span class="at">-C</span> <span class="st">&quot;your-name@your-machine&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.ssh/id_ed25519_sk&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> <span class="at">-l</span></span></code></pre></div>
+    <p>Use a passphrase-protected Ed25519 software key when a hardware
+    token is unavailable. Check the <a
+    href="https://developers.yubico.com/SSH/">YubiKey SSH
+    documentation</a> for the supported FIDO2, PIV, and OpenPGP routes;
+    they have different setup requirements. In particular, confirm that
+    your macOS OpenSSH build supports FIDO2 before using
+    <code>ed25519-sk</code>.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">One authentication agent</span></summary>
+    <div class="commentary-body">
+    <p>An <a href="https://man.openbsd.org/ssh-agent">SSH agent</a>
+    makes keys available through <code>SSH_AUTH_SOCK</code>;
+    hardware-backed keys still need their token. If using GPG’s SSH
+    support for an OpenPGP token, use its agent socket consistently.
+    Check <code>ssh-add -l</code> before starting another agent or
+    replacing the socket setting.</p>
+    </div></details>
+    <h3 id="connection-reuse">Connection reuse</h3>
+    <p>Create a private directory for control sockets:</p>
+    <div class="sourceCode" id="cb13"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.ssh/sockets&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 700 <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.ssh&quot;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.ssh/sockets&quot;</span></span></code></pre></div>
+    <p>Use an alias in <code>~/.ssh/config</code>, replacing the example
+    host, login, and identity with your own:</p>
+    <pre class="sshconfig"><code>Host lab
+    HostName host.example.org
+    User your-login
+    IdentityFile ~/.ssh/id_ed25519_sk
+    IdentitiesOnly yes
+    ForwardAgent yes
+    ControlMaster auto
+    ControlPersist 10m
+    ControlPath ~/.ssh/sockets/%r@%h:%p
+    ServerAliveInterval 60
+    ServerAliveCountMax 3</code></pre>
+    <p>Connect with <code>ssh lab</code>. <code>ControlMaster</code>
+    shares one authenticated connection across terminals, file
+    transfers, and Git operations. <code>ControlPersist</code> keeps it
+    available for ten minutes after the last session closes.
+    <code>ssh -O check lab</code> checks the master;
+    <code>ssh -O exit lab</code> closes the shared connection and its
+    sessions. These options are documented in <a
+    href="https://man.openbsd.org/ssh_config"><code>ssh_config</code></a>.</p>
+    <h3 id="agent-and-port-forwarding">Agent and port forwarding</h3>
+    <p>Our SSH configuration enables agent forwarding by default for lab
+    connections, so the remote machine can authenticate onward using
+    your local agent. Forwarding exposes an authentication socket; it
+    does not copy the private key. Use <code>ssh -a lab</code> to
+    disable forwarding for a particular connection. For a jump host,
+    <code>ssh -J gateway.example.org lab</code> lets the local client
+    authenticate directly to the destination.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Agent forwarding carries authority</span></summary>
+    <div class="commentary-body">
+    <p>A process with access to the forwarded socket can request
+    authentication while the connection is available. Our normal lab
+    connections enable forwarding; disable it when connecting to a
+    machine you do not trust. With ControlMaster, agent-forwarding state
+    belongs to the master connection; changing options may require
+    closing that connection first. See <a
+    href="https://man.openbsd.org/ssh#A">OpenSSH’s forwarding
+    guidance</a>.</p>
+    </div></details>
+    <p>For a notebook or web service listening on the remote machine’s
+    loopback port 8888, forward it to your own loopback interface:</p>
+    <div class="sourceCode" id="cb15"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-N</span> <span class="at">-o</span> ExitOnForwardFailure=yes <span class="dt">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-L</span> 127.0.0.1:8888:127.0.0.1:8888 lab</span></code></pre></div>
+    <p>Then open <code>http://127.0.0.1:8888</code> locally. For the
+    reverse direction, expose your local port 8000 on the remote
+    machine’s loopback port 9000:</p>
+    <div class="sourceCode" id="cb16"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-N</span> <span class="at">-o</span> ExitOnForwardFailure=yes <span class="dt">\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-R</span> 127.0.0.1:9000:127.0.0.1:8000 lab</span></code></pre></div>
+    <p><code>-L</code> listens locally; <code>-R</code> listens
+    remotely. <code>-N</code> runs the tunnel without a shell. Keep the
+    listener on <code>127.0.0.1</code> unless sharing it is intentional.
+    A tunnel transports the connection; the service’s normal
+    authentication still applies. See the <a
+    href="https://man.openbsd.org/ssh"><code>ssh</code> manual</a> for
+    forwarding details.</p>
+    <h2 id="remote-sessions">Remote sessions</h2>
+    <p><strong>Run remote terminal work inside tmux or Screen. Use noVNC
+    when you need a graphical desktop.</strong> Start the terminal
+    session on the remote machine after connecting over SSH, then return
+    to that same host and account when reconnecting.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Keep the session with the computation</span></summary>
+    <div class="commentary-body">
+    <p>A terminal multiplexer keeps shells, editors, and running
+    commands available when a laptop disconnects. Detach before leaving
+    and reattach later. The session still depends on the remote host
+    staying up; use the appropriate scheduler or service manager for
+    jobs that need unattended operation or restart handling.</p>
+    </div></details>
+    <h3 id="tmux">tmux</h3>
+    <p>Use <a href="https://github.com/gpakosz/.tmux">gpakosz’s .tmux
+    configuration</a>. On a new account without an existing tmux
+    configuration, install it with:</p>
+    <div class="sourceCode" id="cb17"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="at">--single-branch</span> https://github.com/gpakosz/.tmux.git <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.tmux&quot;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.tmux/.tmux.conf&quot;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.tmux.conf&quot;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.tmux/.tmux.conf.local&quot;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.tmux.conf.local&quot;</span></span></code></pre></div>
+    <p>Keep personal settings in <code>~/.tmux.conf.local</code>,
+    leaving the upstream <code>.tmux.conf</code> available for updates.
+    If a configuration already exists, merge the local settings into it.
+    Our local prefix configuration is:</p>
+    <pre class="tmux"><code># Use Ctrl-o as the only prefix.
+#&lt;&lt;&lt; YMei
+set -gu prefix2
+unbind C-o
+unbind C-b
+set -g prefix C-o
+bind C-o send-prefix
+#&gt;&gt;&gt; YMei</code></pre>
+    <p><strong>The prefix is Ctrl-o.</strong> Press and release it, then
+    press the command key. Start a named session with
+    <code>tmux new -s work</code>; after detaching, use
+    <code>tmux ls</code> to list sessions and
+    <code>tmux attach -t work</code> to return.</p>
+    <ul>
+    <li><strong>Ctrl-o, c:</strong> create a window.</li>
+    <li><strong>Ctrl-o, n / p:</strong> move to the next / previous
+    window.</li>
+    <li><strong>Ctrl-o, d:</strong> detach while leaving the session
+    running.</li>
+    <li><strong>Ctrl-o, Ctrl-o:</strong> send a literal Ctrl-o to the
+    program inside tmux.</li>
+    </ul>
+    <p>See the <a href="https://man.openbsd.org/tmux">tmux manual</a>
+    for session and key-binding commands.</p>
+    <h3 id="gnu-screen">GNU Screen</h3>
+    <p>Screen is also part of our setup. Use the following
+    <code>~/.screenrc</code>:</p>
+    <pre class="text"><code>escape ^oo  # suggested binding for emacs users
+nethack on
+
+# kill startup message
+startup_message off
+# detach on hangup
+autodetach on
+# define a bigger scrollback, default is 100 lines
+defscrollback 1024
+
+# shell
+#shell -bash
+
+# putty bindings
+#bindkey \&quot;^[OC\&quot; next
+#bindkey \&quot;^[OD\&quot; prev
+
+# An alternative hardstatus to display a bar at the bottom listing the
+# windownames and highlighting the current windowname in blue. (This is only
+# enabled if there is no hardstatus setting for your terminal)
+hardstatus on
+hardstatus alwayslastline
+#hardstatus string &quot;%h (%n.%t)%? users: %u%?&quot;
+#termcapinfo xterm*|rxvt* hs:ts=\E]2;:fs=^G:ds=\E]2;Screen^G
+hardstatus string &quot;%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %h %D %Y/%m/%d %c&quot;
+altscreen on</code></pre>
+    <p>Here, <code>escape ^oo</code> selects Ctrl-o as the prefix and
+    <code>o</code> as the key that sends a literal Ctrl-o. Start a named
+    session with <code>screen -S work</code>, list sessions with
+    <code>screen -ls</code>, and reconnect with
+    <code>screen -r work</code>.</p>
+    <p>Use <strong>Ctrl-o, c</strong> to create a window,
+    <strong>Ctrl-o, n / p</strong> to change windows, and
+    <strong>Ctrl-o, d</strong> to detach. In Screen, <strong>Ctrl-o,
+    o</strong> sends a literal Ctrl-o. The configuration enables detach
+    on hangup, 1,024 lines of scrollback, a window/status bar, and
+    alternate-screen handling. See <a
+    href="https://www.gnu.org/software/screen/manual/html_node/Command-Character.html">Screen’s
+    command-character documentation</a> for the prefix syntax.</p>
+    <h3 id="browser-desktops-with-novnc">Browser desktops with
+    noVNC</h3>
+    <p><strong>Use <a href="https://github.com/novnc/noVNC">noVNC</a>
+    for graphical remote work in a browser</strong>, including EDA
+    editors and waveform viewers. Open the noVNC address provided for
+    the machine and connect to its desktop. Use the client’s keyboard
+    and clipboard controls when the browser intercepts a key combination
+    or clipboard access needs an explicit action.</p>
+    <p>Use the lab’s authenticated HTTPS endpoint when one is provided.
+    If the noVNC gateway instead listens on the remote machine’s
+    loopback port 6080, an SSH tunnel makes that web endpoint available
+    locally:</p>
+    <div class="sourceCode" id="cb20"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-N</span> <span class="at">-o</span> ExitOnForwardFailure=yes <span class="dt">\</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-L</span> 127.0.0.1:6080:127.0.0.1:6080 lab</span></code></pre></div>
+    <p>For that example, open
+    <code>http://127.0.0.1:6080/vnc.html</code>. Use the actual gateway
+    port and page path from the machine’s setup.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">The browser is the desktop client</span></summary>
+    <div class="commentary-body">
+    <p><a href="https://novnc.com/info.html">noVNC</a> connects the
+    browser to a remote VNC server, using a WebSocket connection or
+    proxy. The applications run on the remote machine. Reconnecting
+    returns to the same desktop while that remote session remains
+    running; a browser tab alone does not provide session
+    persistence.</p>
+    </div></details>
+    <h2 id="portable-scripts">Portable scripts</h2>
+    <p><strong>Write automation in POSIX <code>sh</code>. Use standard
+    utilities before adding dependencies.</strong> This applies to
+    scripts written by people and agents; Bash or Zsh is fine as an
+    interactive shell.</p>
+    <p>Use <code>#!/bin/sh</code>, quote path expansions, and rely on
+    familiar tools such as <code>printf</code>, <code>test</code> /
+    <code>[</code>, <code>find</code>, <code>grep</code>,
+    <code>sed</code>, <code>awk</code>, <code>sort</code>, and
+    <code>make</code>. Keep scripts compatible with the standard macOS
+    and Linux versions of those tools.</p>
+    <ul>
+    <li>Use <code>.</code> to load a shell file; avoid Bash arrays,
+    <code>[[ ... ]]</code>, process substitution, and
+    <code>source</code> in portable scripts.</li>
+    <li>Avoid assumptions such as GNU-only <code>sed -i</code> flags or
+    <code>grep -P</code>; use a temporary output file when editing
+    portably.</li>
+    <li>Pass paths and arguments explicitly. Test scripts with
+    <code>sh -n script.sh</code>, then exercise their actual success and
+    failure paths.</li>
+    <li>When Python is the clearer tool, invoke
+    <code>$HOME/Applications/appvenv/bin/python</code> and use the
+    standard library where practical.</li>
+    </ul>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">A small dependency chain is easier to maintain</span></summary>
+    <div class="commentary-body">
+    <p>A short script built from standard tools is easy to run over SSH,
+    inspect during a failure, and move between machines. Choose Python
+    when parsing or state becomes awkward in shell. Keep the
+    interpreter, inputs, and expected output clear in either case.</p>
+    </div></details>
+    <h3 id="repository-local-scratch-space">Repository-local scratch
+    space</h3>
+    <p><strong>Keep scratch space inside the repository. Never use
+    system-wide directories such as <code>/tmp</code>,
+    <code>/private/tmp</code>, or <code>/var/tmp</code>.</strong> Use
+    <code>build/</code> for temporary compilation output,
+    <code>tmp/</code> for short-lived files, and <code>work/</code> for
+    exploratory scripts, downloads, browser profiles, and screenshots.
+    Add these directories to the repository’s ignore rules.</p>
+    <p>Configure each tool’s temporary, cache, and profile paths
+    explicitly when needed. For tools that respect <code>TMPDIR</code>,
+    for example:</p>
+    <div class="sourceCode" id="cb21"><pre
+    class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> tmp</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">TMPDIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">/tmp&quot;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/Applications/appvenv/bin/python&quot;</span> script.py</span></code></pre></div>
+    <p>For <code>mktemp</code>, supply a local template such as
+    <code>"$PWD/tmp/task.XXXXXX"</code>. Keep scratch out of directories
+    that are published or copied into a deliverable.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Keep an experiment’s working files together</span></summary>
+    <div class="commentary-body">
+    <p>Local scratch stays with the checkout that created it. That makes
+    intermediate results easier to inspect, avoids collisions between
+    unrelated tasks, and gives cleanup a clear boundary. The same rule
+    applies to agents: temporary scripts and browser artifacts belong
+    with their task.</p>
+    </div></details>
+    <h2 id="c-and-memory">C and memory</h2>
+    <p><strong>Strongly prefer C11 or later for compiled tools and
+    firmware. Avoid introducing C++.</strong> Favor small modules,
+    explicit data structures, and direct control of memory. The <a
+    href="https://github.com/nothings/stb">stb libraries</a> and
+    Tsoding’s <a href="https://github.com/tsoding/nob.h">nob.h</a> and
+    <a href="https://github.com/tsoding/arena">arena</a> illustrate the
+    style we prefer.</p>
+    <ul>
+    <li>When a single-header library is appropriate, use an
+    <code>*_IMPLEMENTATION</code> macro and define it in exactly one
+    translation unit.</li>
+    <li>Represent dynamic arrays with an explicit struct containing an
+    element pointer, count, and capacity. Keep ownership, growth, and
+    failure behavior visible.</li>
+    <li>Group allocations by lifetime in an arena. Reset or release the
+    arena when the whole group of objects is finished, instead of
+    scattering <code>malloc</code> / <code>free</code> pairs throughout
+    the code.</li>
+    <li>Check allocation sizes, capacity growth, alignment, and failure
+    paths. Keep interfaces and dependencies small enough to read and
+    test.</li>
+    </ul>
+    <p>A dynamic array makes its state explicit:</p>
+    <div class="sourceCode" id="cb22"><pre
+    class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    Sample <span class="op">*</span>items<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> count<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> capacity<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Samples<span class="op">;</span></span></code></pre></div>
+    <p><strong>For embedded and MCU acquisition code, plan memory before
+    acquisition starts.</strong> Prefer fixed buffers or arenas backed
+    by a bounded memory region. Reserve storage during initialization
+    and avoid heap allocation in interrupts and time-critical
+    acquisition loops. Define what happens when a buffer fills or an
+    arena runs out.</p>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">Memory lifetime is part of the instrument</span></summary>
+    <div class="commentary-body">
+    <p>Scattered allocation makes ownership harder to audit and can
+    introduce fragmentation and unpredictable timing. An arena makes the
+    lifetime of a run, event, or processing stage explicit. A reset
+    invalidates every pointer into that region: wait until DMA,
+    interrupt handlers, and other tasks have finished using it. Arrays
+    that grow inside an arena can also leave old storage behind until
+    reset; reserve capacity when the required bound is known.</p>
+    </div></details>
+    <p>Compile with warnings enabled, for example
+    <code>-std=c11 -Wall -Wextra -Wpedantic</code>. Exercise parsing,
+    buffer boundaries, and allocation failures on the host, using
+    sanitizers where supported, before relying on the code in an
+    instrument. Keep compiler versions and build commands recorded in
+    the project.</p>
+    <h2 id="coding-agents">Coding agents</h2>
+    <p><strong>Use coding agents as part of an accountable engineering
+    workflow. You own the resulting code and its behavior.</strong> Give
+    the agent a concrete goal, relevant files, constraints, and a way to
+    check success. Make its working environment as explicit as your
+    own.</p>
+    <h3 id="copyable-agent-instructions">Copyable agent
+    instructions</h3>
+    <p>Paste this block into a CLI agent session, then describe the task
+    and its acceptance criteria. It includes the working conventions
+    without requiring the agent to read this page.</p>
+    <pre class="text"><code>Follow these working conventions for this task.
+
+Tools and environment
+- Read the repository&#39;s AGENTS.md and build instructions first.
+  Inspect git status and preserve existing, unrelated changes.
+- Prefer existing tools under $HOME/Applications and
+  /opt/OpenICEDA before adding dependencies. Prefer upstream downloads
+  or source builds over adding package-manager dependencies. Keep
+  source in $HOME/Applications/src and install with a prefix of
+  $HOME/Applications. Do not silently install or upgrade tools.
+- Run Python explicitly as &quot;$HOME/Applications/appvenv/bin/python&quot;.
+  Use that interpreter&#39;s -m pip for package operations. Avoid Conda.
+  Do not silently change the shared environment or substitute system
+  Python if the environment is missing; report what is needed.
+- Go uses GOPATH=$HOME/Applications/go. Rust uses $HOME/.cargo and
+  $HOME/.rustup; Node.js uses $HOME/.nvm. Select tools explicitly
+  rather than relying on interactive aliases or shell startup files.
+- For IC design, use /opt/OpenICEDA and its env.sh as needed. Keep
+  using the explicit appvenv interpreter for general Python work.
+
+Portable scripts
+- Write shell automation for POSIX sh with #!/bin/sh, not Bash.
+  Quote paths and arguments. Avoid Bash arrays, [[ ... ]], process
+  substitution, and source; use the POSIX dot command instead.
+- Prefer standard tools such as printf, test, find, grep, sed, awk,
+  sort, and make. Avoid GNU-only assumptions on macOS. Use Python&#39;s
+  standard library when shell parsing becomes unnecessarily complex.
+
+Scratch space
+- Keep all scratch, temporary builds, downloads, generated helpers,
+  browser profiles, caches for the task, and screenshots inside this
+  repository&#39;s build/, tmp/, or work/. Add appropriate ignore rules.
+- Never use system-wide scratch such as /tmp, /private/tmp, or
+  /var/tmp. Set TMPDIR to an absolute repository-local path and
+  configure tool-specific temporary, cache, and profile paths too.
+  Give mktemp an explicit local template. Keep scratch out of
+  published assets and deliverables.
+
+C and memory
+- Strongly prefer C11 or later for new compiled tools and firmware;
+  avoid C++. Respect an existing project&#39;s required language.
+- Use STB-style single-header libraries where appropriate, with each
+  implementation macro defined in exactly one translation unit.
+- Use explicit dynamic-array structs with items, count, and capacity.
+  Prefer arenas with clear lifetimes over scattered malloc/free.
+- Check sizes, alignment, capacity growth, and allocation failures.
+  Reset arenas only after all users of their contents have finished.
+- For embedded/MCU code, reserve bounded storage before acquisition.
+  Avoid heap allocation in interrupts and time-critical loops, and
+  define how buffer exhaustion is handled.
+
+Verification and handoff
+- Keep the change focused and review the final diff and dependencies.
+  Run the documented build and relevant checks; check POSIX scripts
+  with sh -n and exercise their success and failure paths.
+- Report what changed, commands actually run, results, and anything
+  still unverified. Keep durable rules in AGENTS.md and task-specific
+  plans in separate files. Do not put credentials in commits or prompts.</code></pre>
+    <h3 id="working-pattern">Working pattern</h3>
+    <ol type="1">
+    <li><strong>Read first.</strong> Inspect the repository
+    instructions, existing code, and working-tree changes. Reproduce a
+    problem before choosing a fix.</li>
+    <li><strong>State the environment.</strong> Use POSIX
+    <code>sh</code>, standard utilities, and the explicit
+    <code>appvenv</code> interpreter. Follow the project’s language,
+    memory, and dependency conventions.</li>
+    <li><strong>Keep instructions durable.</strong> Put stable
+    repository rules in <code>AGENTS.md</code>; keep task plans and
+    longer design notes in separate files. Record build and test
+    commands where future contributors can find them.</li>
+    <li><strong>Review a focused change.</strong> Read the diff,
+    understand the implementation, and check new dependencies. Keep
+    unrelated edits separate and preserve work already in progress.</li>
+    <li><strong>Verify behavior.</strong> Run the relevant build and
+    tests. For a defect, check that the original failure is fixed.
+    Report the commands run, their results, and anything still
+    unverified.</li>
+    <li><strong>Leave a useful record.</strong> Commit coherent changes
+    and document decisions, tool versions, and reproduction steps in the
+    repository. Keep credentials and private keys out of commits and
+    prompts; handle unpublished research data according to the lab’s
+    access rules.</li>
+    </ol>
+    <span class="commentary-anchor" aria-hidden="true"></span>
+    <details class="commentary" data-commentary="1">
+    <summary><span class="commentary-toggle" aria-hidden="true"></span><span class="commentary-title">A working command is evidence</span></summary>
+    <div class="commentary-body">
+    <p>An agent’s explanation is useful, but confidence comes from a
+    reproducible build, a test that exercises the relevant behavior, and
+    a diff you can understand. For experimental software, also check
+    units, calibration, timing, and failure behavior against the actual
+    system. Fast implementation is valuable when it produces work that
+    another researcher can verify and maintain.</p>
+    </div></details>
+    <p>Keep improving this guide as the working environment changes.
+    Bring questions and proposed refinements back to <a
+    href="/labrules/">How we work</a> and the group.</p>
+  </main>
+    <footer class="site-footer">
+      <div class="wrapper footer-wrapper">
+        <div class="footer-col-wrapper">
+          <div class="footer-col">
+            <ul class="contact-list">
+              <li class="p-name">root</li>
+              <li><a class="u-email" href="mailto:contact@snr-lab.org">contact@snr-lab.org</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <ul class="social-list">
+              <li>
+                <a class="social-link" href="https://github.com/snr-laboratory" aria-label="GitHub: snr-laboratory">
+                  <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.11-1.5-1.11-1.5-.9-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.9 1.57 2.36 1.12 2.93.86.09-.66.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.32.1-2.75 0 0 .84-.27 2.75 1.05.8-.23 1.65-.34 2.5-.34s1.7.12 2.5.34c1.91-1.32 2.75-1.05 2.75-1.05.55 1.43.2 2.49.1 2.75.64.72 1.03 1.64 1.03 2.76 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .26.18.58.69.48 3.97-1.35 6.84-5.18 6.84-9.7C22 6.58 17.52 2 12 2z"></path>
+                  </svg>
+                  <span>snr-laboratory</span>
+                </a>
+              </li>
+              <li>
+                <a class="social-link" href="https://www.youtube.com/@snr-lab" aria-label="YouTube: @snr-lab">
+                  <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M23.5 6.2a3.1 3.1 0 0 0-2.18-2.2C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.32.5A3.1 3.1 0 0 0 .5 6.2C0 8.12 0 12 0 12s0 3.88.5 5.8a3.1 3.1 0 0 0 2.18 2.2C4.6 20.5 12 20.5 12 20.5s7.4 0 9.32-.5a3.1 3.1 0 0 0 2.18-2.2c.5-1.92.5-5.8.5-5.8s0-3.88-.5-5.8zM9.6 15.6V8.4l6 3.6-6 3.6z"></path>
+                  </svg>
+                  <span>@snr-lab</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col footer-col-3">
+            <p>We research all possible ways to improve signal-to-noise in all disciplines.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="/assets/js/marginalia.js" defer></script>
+</body>
+</html>

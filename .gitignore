@@ -11,5 +11,10 @@
 # Local logs
 *.log
 
+# Repository-local scratch and build artifacts
+/build/
+/tmp/
+/work/
+
 # Separate reference checkout
 /zeronu-org.github.io/

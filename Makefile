@@ -1,10 +1,16 @@
 # Makefile
+SHELL := /bin/sh
 PANDOC ?= pandoc
+PYTHON ?= $(HOME)/Applications/appvenv/bin/python
+PORT ?= 8000
 
 CONTENT_DIR := content
 THEME_DIR   := theme
 ASSETS_DIR  := assets
 OUT_DIR     := docs
+TMP_DIR     := tmp
+
+export TMPDIR := $(CURDIR)/$(TMP_DIR)
 
 MD_SRC      := $(wildcard $(CONTENT_DIR)/*.md)
 INDEX_MD    := $(CONTENT_DIR)/index.md
@@ -25,7 +31,7 @@ PANDOC_FLAGS := \
   --include-after-body=$(THEME_DIR)/footer.html \
   --css=assets/style.css \
   --lua-filter=filters/marginalia.lua \
-  --mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js \
+  --math-method=mathjax:https://cdn.jsdelivr.net/npm/mathjax/tex-mml-chtml.js \
   --metadata=lang:en \
   --metadata=site-title:"The SNR Laboratory"
 
@@ -36,8 +42,11 @@ build: copy-assets $(OUT_DIR)/CNAME $(HTML_OUT)
 $(OUT_DIR)/CNAME: CNAME | $(OUT_DIR)
 	cp CNAME $(OUT_DIR)/CNAME
 
-$(OUT_DIR):
+$(OUT_DIR): | $(TMP_DIR)
 	mkdir -p $(OUT_DIR)
+
+$(TMP_DIR):
+	mkdir -p "$@"
 
 copy-assets: | $(OUT_DIR)
 	rm -rf $(OUT_DIR)/assets
@@ -68,4 +77,4 @@ rebuild:
 	$(MAKE) build
 
 serve: build
-	python3 -m http.server --directory $(OUT_DIR) 8000
+	"$(PYTHON)" -m http.server --bind 127.0.0.1 --directory "$(OUT_DIR)" "$(PORT)"
